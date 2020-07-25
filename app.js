@@ -12,7 +12,7 @@ const parkRoutes = require('./api/routes/parks');
 const checkRoutes = require('./api/routes/checks');
 const scheduleRoutes = require('./api/routes/schedules');
 
-//load config
+//load config which holds file to load DB
 dotenv.config({ path: './config/config.env' });
 
 app.use(morgan('dev'));
