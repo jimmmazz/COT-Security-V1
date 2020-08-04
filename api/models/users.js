@@ -6,7 +6,17 @@ const userSchema = mongoose.Schema({
   lname: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  supervisor: { type: String },
+  supervisor: { type: String, required: true },
+  phonenumber: { type: Number },
 });
 
-module.exports = mongoose.model('User', userSchema);
+const scheduleSchema = mongoose.Schema({
+  date: { type: Date, default: Date.now },
+  region: { type: String, required: true },
+  officer: { type: String, required: true }, //find out how and if needed to ref user DB
+});
+
+const userModel = mongoose.model('User', userSchema);
+const scheduleModel = mongoose.model('Schedule', scheduleSchema);
+
+module.exports = { User: userModel, Schedule: scheduleModel };
