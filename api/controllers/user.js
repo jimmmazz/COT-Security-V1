@@ -10,10 +10,10 @@ exports.getAllUsers = async (req, res, next) => {
   const users = await User.find({});
   try {
     console.log(users);
-    res.status(200).json(users);
+    return res.status(200).json({ users: users });
   } catch (err) {
     console.log(err);
-    res.status(500).json({
+    return res.status(500).json({
       error: err,
     });
   }
@@ -21,7 +21,6 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.addUser = async (req, res, next) => {
   const userEmail = req.body.email.trim().toLowerCase();
-  console.log(req.body.password);
 
   const isEmail = await User.findOne({ email: userEmail });
   if (isEmail) {
@@ -63,7 +62,7 @@ exports.addUser = async (req, res, next) => {
 };
 
 exports.patchUser = (req, res, next) => {
-  res.status(200).json({
+  return res.status(200).json({
     message: 'User updated',
     userID: req.params.userID,
   });
