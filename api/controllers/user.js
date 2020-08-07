@@ -69,7 +69,7 @@ exports.patchUser = (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-  const user = await await User.findOne({ _id: req.params.userID });
+  const user = await User.findOne({ _id: req.params.userID });
   if (user) {
     const deleteReturn = await User.deleteOne({ _id: req.params.userID });
     return res.status(200).json({

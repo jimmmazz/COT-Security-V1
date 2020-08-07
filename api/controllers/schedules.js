@@ -2,11 +2,32 @@ const { Schedule } = require('../models/users');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const months = [
+  'January',
+  'Febuary',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
 exports.getSchedule = async (req, res, next) => {
   const scheduledDays = await Schedule.find({});
+  const newSchedule = scheduledDays.map((scheduledDay, index) => {
+    console.log(scheduledDay.date);
+    dateInfo = getDateInfo(scheduledDay.date);
+    return { scheduledDay, dateInfo };
+  });
+
   return res.status(200).json({
     message: 'Daily schedules',
-    scheduledDays,
+    newSchedule,
   });
 };
 
@@ -17,32 +38,13 @@ exports.addSchedule = async (req, res, next) => {
     officer: req.body.officer,
   });
 
-  const months = [
-    'January',
-    'Febuary',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
   try {
     await schedule.save();
     return res.status(200).json({
       message: 'Schedule was created',
       schedule: schedule,
       //used to populate schedule calendar
-      dateBreakDown: {
-        date: new Date(req.body.date).getDate(),
-        month: months[new Date(req.body.date).getMonth()],
-        year: new Date(req.body.date).getFullYear(),
-      },
+      dateBreakDown: getDateInfo(req.body.date),
     });
   } catch (err) {
     console.log(err);
@@ -51,3 +53,11 @@ exports.addSchedule = async (req, res, next) => {
     });
   }
 };
+
+function getDateInfo(date) {
+  return {
+    date: new Date(date).getDate(),
+    month: months[new Date(date).getMonth()],
+    year: new Date(date).getFullYear(),
+  };
+}
