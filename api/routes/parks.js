@@ -1,17 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const parksController = require('../controllers/parks');
 
-router.get('/', (req, res, next) => {
-  res.status(200).json({
-    message: 'Parks were fetched',
-  });
-});
+router.get('/', parksController.getAllParks);
 
-router.post('/', (req, res, next) => {
-  res.status(200).json({
-    message: 'Park was created',
-  });
-});
+router.post('/', parksController.addPark);
 
 router.patch('/:parkID', (req, res, next) => {
   res.status(200).json({
