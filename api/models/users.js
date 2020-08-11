@@ -10,13 +10,14 @@ const userSchema = mongoose.Schema({
   phonenumber: { type: Number },
 });
 
-const scheduleSchema = mongoose.Schema({
-  date: { type: Date, default: Date.now },
-  region: { type: String, required: true },
-  officer: { type: String, required: true }, //find out how and if needed to ref user DB
-});
+// const scheduleSchema = mongoose.Schema({
+//   date: { type: Date, default: Date.now },
+//   region: { type: String, required: true },
+//   officer: { type: String, required: true }, //find out how and if needed to ref user DB
+// });
 
 const userModel = mongoose.model('User', userSchema);
-const scheduleModel = mongoose.model('Schedule', scheduleSchema);
+// const scheduleModel = mongoose.model('Schedule', scheduleSchema);
 
-module.exports = { User: userModel, Schedule: scheduleModel };
+module.exports = { User: userModel };
+// , Schedule: scheduleModel -> add to line above and uncomment to have multiple schema in one file

@@ -1,6 +1,6 @@
-const { Schedule } = require('../models/users');
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const { Schedule } = require('../models/schedule');
+// const mongoose = require('mongoose');
+// const bcrypt = require('bcrypt');
 
 const months = [
   'January',
@@ -20,7 +20,6 @@ const months = [
 exports.getSchedule = async (req, res, next) => {
   const scheduledDays = await Schedule.find({});
   const newSchedule = scheduledDays.map((scheduledDay, index) => {
-    console.log(scheduledDay.date);
     dateInfo = getDateInfo(scheduledDay.date);
     return { scheduledDay, dateInfo };
   });
@@ -52,6 +51,13 @@ exports.addSchedule = async (req, res, next) => {
       error: err,
     });
   }
+};
+
+exports.patchSchedule = (req, res, next) => {
+  return res.status(200).json({
+    message: 'Schedule updated',
+    scheduleID: req.params.scheduleID,
+  });
 };
 
 function getDateInfo(date) {

@@ -12,6 +12,10 @@ const parkRoutes = require('./api/routes/parks');
 const checkRoutes = require('./api/routes/checks');
 const scheduleRoutes = require('./api/routes/schedules');
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname + '/public/views'));
+app.use(express.static('public'));
+
 //load config which holds file to load DB
 dotenv.config({ path: './config/config.env' });
 
@@ -38,6 +42,10 @@ app.use('/users', userRoutes);
 app.use('/parks', parkRoutes);
 app.use('/checks', checkRoutes);
 app.use('/schedules', scheduleRoutes);
+
+app.use((req, res) => {
+  res.render('login-form.ejs');
+});
 
 app.use((req, res, next) => {
   const error = new Error('Route not found');

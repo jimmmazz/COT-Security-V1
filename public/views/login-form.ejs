@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="../css/style-reset.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style-login.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="logo">COT Security</div>
+        <div class="menu">
+          <h1>Login</h1>
+        </div>
+      </header>
+      <form action="/login" method="POST" class="form form__login">
+        <div class="form__group">
+          <label class="form__label" for="loginname">User Name</label>
+          <input
+            autocomplete="off"
+            type="email"
+            class="form__input"
+            id="login-name"
+            name="email"
+          />
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="loginpassword">Password</label>
+          <input
+            autocomplete="off"
+            type="password"
+            class="form__input"
+            id="login-password"
+            name="password"
+          />
+        </div>
+        <button class="btn form__button" type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

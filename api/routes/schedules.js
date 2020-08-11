@@ -6,11 +6,6 @@ router.get('/', schedleController.getSchedule);
 
 router.post('/', schedleController.addSchedule);
 
-router.patch('/:scheduleID', (req, res, next) => {
-  res.status(200).json({
-    message: 'Schedule updated',
-    scheduleID: req.params.scheduleID,
-  });
-});
+router.patch('/:scheduleID', schedleController.patchSchedule);
 
 module.exports = router;

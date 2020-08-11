@@ -7,7 +7,7 @@ exports.isSupervisor = (user) => {
 };
 
 exports.getAllUsers = async (req, res, next) => {
-  const users = await User.find({});
+  const users = await User.find({}, { password: 0 });
   try {
     console.log(users);
     return res.status(200).json({ users: users });
