@@ -3,3 +3,5 @@ config/config.env
 testing.rest
 scss
 dl-files
+*.crt
+*.key

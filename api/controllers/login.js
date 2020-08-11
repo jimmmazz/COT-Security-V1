@@ -28,9 +28,15 @@ exports.userLogin = async (req, res, next) => {
             }
           );
 
+          const cookieOptions = {
+            secure: true, //needs https for cookie to be sent
+            expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
+          };
+
+          res.cookie('COTAccessJWT', token, cookieOptions);
+
           res.status(200).json({
-            message: 'Logged In',
-            token,
+            message: 'Logged In & cookie sent',
           });
 
           // passes verified user to supervisor area or region to check based on schedule
