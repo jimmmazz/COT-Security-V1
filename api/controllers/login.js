@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/users');
 const userController = require('./user');
+const parkController = require('./parks');
+const { json } = require('body-parser');
 
 exports.userLogin = async (req, res, next) => {
   const email = req.body.email.trim().toLowerCase();
@@ -29,18 +31,26 @@ exports.userLogin = async (req, res, next) => {
           );
 
           const cookieOptions = {
-            secure: true, //needs https for cookie to be sent
+            // secure: true, //if 'true' needs https for cookie to be sent
+            httpOnly: true,
             expires: new Date(Date.now() + 8 * 3600000), // cookie will be removed after 8 hours
           };
 
           res.cookie('COTAccessJWT', token, cookieOptions);
 
-          res.status(200).json({
-            message: 'Logged In & cookie sent',
-          });
+          res.redirect(`/users/${user.fname}`);
 
-          // passes verified user to supervisor area or region to check based on schedule
-          userController.isSupervisor(user);
+          // if (user.supervisor) {
+          //   userController.isSupervisor(user);
+          // } else {
+          //   const assignment = await userController.userAssignment(user);
+          //   res
+          //     // .status(200)
+          //     // .json({
+          //     //   message: 'Logged In & cookie sent',
+          //     // })
+          //     .redirect(`/parks/${assignment}`);
+          // }
         } else {
           res.status(401).json({
             message: 'Auth failed',
@@ -53,5 +63,7 @@ exports.userLogin = async (req, res, next) => {
         error: err,
       });
     }
+    // passes verified user to supervisor area or region to check based on schedule
+    //splits to work assignment or admin interface => needs validation to admin
   });
 };

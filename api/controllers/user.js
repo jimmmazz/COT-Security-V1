@@ -1,9 +1,11 @@
 const { User } = require('../models/users');
+const { Schedule } = require('../models/schedule');
+const Park = require('../models/parks');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 exports.isSupervisor = (user) => {
-  console.log(user.fname);
+  console.log(`${user.fname} is a supervisor`);
 };
 
 exports.getAllUsers = async (req, res, next) => {
@@ -82,5 +84,32 @@ exports.deleteUser = async (req, res, next) => {
       message: 'User not found',
       userID: req.params.userID,
     });
+  }
+};
+
+exports.userAssignment = async (req, res) => {
+  const officer = req.params.assignment.toLowerCase();
+
+  const date = new Date().toLocaleDateString(); // date logging in
+
+  //find officer that logged in
+  const officerLoggedIn = await Schedule.find({ officer: officer });
+
+  // converting date to searchable string with NO time info
+  officerLoggedIn.forEach((assignedOfficer) => {
+    assignedOfficer.queryDate = assignedOfficer.date.toLocaleDateString();
+  });
+  // finding officer schedule for date logged in
+  const officerRegionDate = officerLoggedIn.filter(
+    (officer) => date.trim() === officer.queryDate.trim()
+  );
+  console.log(officerRegionDate.length);
+  if (officerRegionDate.length !== 0) {
+    //next extract region and populate view with parks from that region
+    const scheduledRegion = officerRegionDate[0].region;
+    const assignRegion = await Park.find({ parkRegion: scheduledRegion });
+    return assignRegion;
+  } else {
+    return res.json('No sechdule for this officer');
   }
 };

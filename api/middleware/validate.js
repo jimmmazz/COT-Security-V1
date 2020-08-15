@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 const addUserValidationRules = () => {
   return [
     body('email').isEmail().normalizeEmail(),
-    body('password').isLength({ min: 8, max: 30 }).escape(),
+    body('password').isLength({ min: 3, max: 30 }).escape(),
   ];
 };
 

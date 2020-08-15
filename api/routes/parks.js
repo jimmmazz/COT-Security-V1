@@ -4,6 +4,8 @@ const parksController = require('../controllers/parks');
 
 router.get('/', parksController.getAllParks);
 
+router.get('/:assignment', parksController.getRegionParks);
+
 router.post('/', parksController.addPark);
 
 router.patch('/:parkID', (req, res, next) => {

@@ -3,15 +3,17 @@ const router = express.Router();
 const checkAuth = require('../middleware/check-auth');
 const { addUserValidationRules, validate } = require('../middleware/validate');
 
-const userContoller = require('../controllers/user');
+const userController = require('../controllers/user');
 const { validationResult } = require('express-validator');
 
-router.get('/', userContoller.getAllUsers);
+router.get('/', userController.getAllUsers);
 
-router.post('/', addUserValidationRules(), validate, userContoller.addUser);
+router.post('/', addUserValidationRules(), validate, userController.addUser);
 
-router.patch('/:userID', checkAuth, userContoller.patchUser);
+router.patch('/:userID', checkAuth, userController.patchUser);
 
-router.delete('/:userID', checkAuth, userContoller.deleteUser);
+router.delete('/:userID', checkAuth, userController.deleteUser);
+
+router.get('/:assignment', checkAuth, userController.userAssignment);
 
 module.exports = router;

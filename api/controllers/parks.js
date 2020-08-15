@@ -4,12 +4,24 @@ const mongoose = require('mongoose');
 exports.getAllParks = async (req, res) => {
   console.log('Parks');
 
-  const parks = await Park.find({});
+  const parks = await Park.find({}, { __v: 0 });
 
   res.status(200).json({
     message: 'Parks were fetched',
     parks: parks,
   });
+};
+
+exports.getRegionParks = async (req, res) => {
+  assignment = req.params.assignment;
+
+  const parks = await Park.find({}, { __v: 0 });
+
+  res.render('assignedRegion.ejs', { assignment: assignment });
+  // res.status(200).json({
+  //   message: 'Parks were fetched',
+  //   parks: parks,
+  // });
 };
 
 exports.addPark = async (req, res, next) => {
