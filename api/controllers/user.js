@@ -103,12 +103,11 @@ exports.userAssignment = async (req, res) => {
   const officerRegionDate = officerLoggedIn.filter(
     (officer) => date.trim() === officer.queryDate.trim()
   );
-  console.log(officerRegionDate.length);
   if (officerRegionDate.length !== 0) {
     //next extract region and populate view with parks from that region
     const scheduledRegion = officerRegionDate[0].region;
     const assignRegion = await Park.find({ parkRegion: scheduledRegion });
-    return assignRegion;
+    res.redirect(`/parks/${assignRegion[0].parkRegion}`);
   } else {
     return res.json('No sechdule for this officer');
   }

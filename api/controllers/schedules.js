@@ -18,9 +18,12 @@ const months = [
 ];
 
 exports.getSchedule = async (req, res, next) => {
-  const scheduledDays = await Schedule.find({});
+  const scheduledDays = await Schedule.find({}).populate(
+    newSchedule.scheduleDay.officer
+  );
   const newSchedule = scheduledDays.map((scheduledDay, index) => {
     dateInfo = getDateInfo(scheduledDay.date);
+    console.log(scheduledDay.date);
     return { scheduledDay, dateInfo };
   });
 
@@ -43,7 +46,7 @@ exports.addSchedule = async (req, res, next) => {
       message: 'Schedule was created',
       schedule: schedule,
       //used to populate schedule calendar
-      dateBreakDown: getDateInfo(req.body.date),
+      dateBreakDown: getDateInfo(schedule.date),
     });
   } catch (err) {
     console.log(err);

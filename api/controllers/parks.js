@@ -2,7 +2,7 @@ const Park = require('../models/parks');
 const mongoose = require('mongoose');
 
 exports.getAllParks = async (req, res) => {
-  console.log('Parks');
+  console.log('get all Parks');
 
   const parks = await Park.find({}, { __v: 0 });
 
@@ -13,11 +13,12 @@ exports.getAllParks = async (req, res) => {
 };
 
 exports.getRegionParks = async (req, res) => {
-  assignment = req.params.assignment;
+  region = req.params.assignment;
+  console.log('region ' + region);
 
-  const parks = await Park.find({}, { __v: 0 });
+  const parks = await Park.find({ parkRegion: region }, { __v: 0 });
 
-  res.render('assignedRegion.ejs', { assignment: assignment });
+  res.render('assignedRegion.ejs', { assignment: parks });
   // res.status(200).json({
   //   message: 'Parks were fetched',
   //   parks: parks,

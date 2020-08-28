@@ -38,19 +38,16 @@ exports.userLogin = async (req, res, next) => {
 
           res.cookie('COTAccessJWT', token, cookieOptions);
 
-          res.redirect(`/users/${user.fname}`);
-
-          // if (user.supervisor) {
-          //   userController.isSupervisor(user);
-          // } else {
-          //   const assignment = await userController.userAssignment(user);
-          //   res
-          //     // .status(200)
-          //     // .json({
-          //     //   message: 'Logged In & cookie sent',
-          //     // })
-          //     .redirect(`/parks/${assignment}`);
-          // }
+          if (user.supervisor) {
+            userController.isSupervisor(user);
+          } else {
+            res.redirect(`/users/${user.fname}`);
+            //res
+            // .status(200)
+            // .json({
+            //   message: 'Logged In & cookie sent',
+            // })
+          }
         } else {
           res.status(401).json({
             message: 'Auth failed',
@@ -63,7 +60,5 @@ exports.userLogin = async (req, res, next) => {
         error: err,
       });
     }
-    // passes verified user to supervisor area or region to check based on schedule
-    //splits to work assignment or admin interface => needs validation to admin
   });
 };
