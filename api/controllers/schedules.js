@@ -18,7 +18,7 @@ const months = [
 ];
 
 exports.getSchedule = async (req, res, next) => {
-  const scheduledDays = await Schedule.find({}).populate({path: 'officer'});
+  const scheduledDays = await Schedule.find({}).populate('officer', '-password');
   const newSchedule = scheduledDays.map((scheduledDay, index) => {
     dateInfo = getDateInfo(scheduledDay.date);
     console.log(scheduledDay.date);
