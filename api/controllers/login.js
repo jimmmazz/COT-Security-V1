@@ -41,12 +41,10 @@ exports.userLogin = async (req, res, next) => {
           if (user.supervisor) {
             userController.isSupervisor(user);
           } else {
-            res.redirect(`/users/${user.fname}`);
-            //res
-            // .status(200)
-            // .json({
+            res.redirect(`/users/${user._id}`);
+            // res.status(200).json({
             //   message: 'Logged In & cookie sent',
-            // })
+            // });
           }
         } else {
           res.status(401).json({
