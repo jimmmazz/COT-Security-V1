@@ -8,6 +8,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   supervisor: { type: Boolean, required: true },
   phonenumber: { type: Number },
+  // assignments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'schedule' }],
 });
 
 // const scheduleSchema = mongoose.Schema({

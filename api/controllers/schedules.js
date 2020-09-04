@@ -18,7 +18,10 @@ const months = [
 ];
 
 exports.getSchedule = async (req, res, next) => {
-  const scheduledDays = await Schedule.find({}).populate({path: 'officer'});
+  const scheduledDays = await Schedule.find({}).populate(
+    'officer',
+    '-password -__v'
+  );
   const newSchedule = scheduledDays.map((scheduledDay, index) => {
     dateInfo = getDateInfo(scheduledDay.date);
     console.log(scheduledDay.date);
@@ -32,14 +35,20 @@ exports.getSchedule = async (req, res, next) => {
 };
 
 exports.addSchedule = async (req, res, next) => {
+  const region = req.body.region;
+  const officerId = req.body.officer;
   const schedule = new Schedule({
     date: req.body.date,
-    region: req.body.region,
-    officer: req.body.officer,
+    region: region.toLowerCase(),
+    officer: officerId,
   });
-
+  console.log(schedule._id);
   try {
     await schedule.save();
+    await schedule.updateOne(
+      { _id: schedule._id },
+      { $push: { officer: 1234 } }
+    );
     return res.status(200).json({
       message: 'Schedule was created',
       schedule: schedule,

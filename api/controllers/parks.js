@@ -33,10 +33,13 @@ exports.addPark = async (req, res, next) => {
     });
   }
 
+  const parkName = req.body.parkName;
+  const parkRegion = req.body.parkRegion;
+
   const park = new Park({
     _id: new mongoose.Types.ObjectId(),
-    parkName: req.body.parkName,
-    parkRegion: req.body.parkRegion,
+    parkName: parkName.toLowerCase(),
+    parkRegion: parkRegion.toLowerCase(),
   });
 
   try {

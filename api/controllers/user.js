@@ -37,6 +37,7 @@ exports.addUser = async (req, res, next) => {
         error: err,
       });
     } else {
+      console.log(req.body.assignments);
       const user = new User({
         _id: new mongoose.Types.ObjectId(),
         fname: req.body.fname,
@@ -44,6 +45,7 @@ exports.addUser = async (req, res, next) => {
         email: userEmail,
         password: hash,
         supervisor: req.body.supervisor,
+        // assignments: req.body.assignments,
       });
 
       try {
@@ -103,10 +105,13 @@ exports.userAssignment = async (req, res) => {
   const officerRegionDate = officerLoggedIn.filter(
     (officer) => date.trim() === officer.queryDate.trim()
   );
+
   if (officerRegionDate.length !== 0) {
     //next extract region and populate view with parks from that region
     const scheduledRegion = officerRegionDate[0].region;
+
     const assignRegion = await Park.find({ parkRegion: scheduledRegion });
+
     res.redirect(`/parks/${assignRegion[0].parkRegion}`);
   } else {
     return res.json('No sechdule for this officer');
